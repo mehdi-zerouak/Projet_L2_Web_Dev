@@ -1,0 +1,33 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fakebook</title>
+</head>
+<body>
+
+    <!-- navbar here -->
+
+    <div class="profile-container">
+
+        <div class="profile-picture">
+            <img src="{{ profile.picture.url }}" alt="Profile Picture">
+        </div>
+        
+        <div class="profile-details">
+            <h2 class="username">{{profile.user.username}}</h2>
+            <p class="about">{{profile.about}}</p>
+        </div>
+
+        {% if profile.user == user %}
+        <div class="profile-detail-actions">
+            <a href="{% url 'u-update-profile' profile.id %}" class="profile-update-button">Update</a>
+        </div>
+        {% endif %}
+
+    </div>
+
+    <!-- user posts here, where blog app is ready -->
+
+</body>
+</html>

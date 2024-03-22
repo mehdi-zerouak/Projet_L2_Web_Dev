@@ -1,0 +1,19 @@
+{% autoescape off %}
+
+Hey -- {{ user.get_username }} --
+
+Welcome to Fakebook
+
+Get set to dive into a world of endless connections, vibrant communities, and unforgettable moments!
+
+Fakebook is an app created by 4 students for a university project (web dev).
+
+Cheers,
+
+The Fakebook team:
+- Mehdi Zerouak
+- Haroun Messaoudi
+- Salim Bouzian
+- Tahar Irki
+
+{% endautoescape %}
