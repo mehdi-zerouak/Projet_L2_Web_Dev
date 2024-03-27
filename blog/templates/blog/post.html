@@ -1,0 +1,87 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fakebook</title>
+</head>
+<body>
+    
+    <div class="post-detail-container">
+
+        <div class="post-detail-header">
+
+            <a href="{% url 'u-profile' post.author.username %}" class="profile-link" >
+            <div class="post-detail-user-info">
+
+                <div class="post-detail-profile-picture">
+                    <img src="{{post.author.profile.picture.url}}" alt="User Profile Picture">
+                </div>
+
+                <div class="post-detail-username">{{post.author.username}}</div>
+
+            </div>
+            </a>
+            <h2 class="post-detail-title">  {{post.title}} </h2>
+
+    </div>
+
+        <div class="post-detail-content">
+            <p class="post-detail-content">{{post.content|linebreaksbr}}</p>
+            {% if post.image %}
+            <img class="post-detail-image" src="{{post.image.url}}" alt="Post Image">
+            {% endif %}
+        </div>
+        <br>
+
+        <hr>
+        <div class="post-detail-actions">
+            {% if post.author == user %}
+            <a class="post-detail-delete-button" href="{% url 'b-delete-post' post.id %}">Delete</a>
+            <a class="post-detail-update-button" href="{% url 'b-update-post' post.id %}">Update</a>
+            {% endif %}
+        </div>
+
+        {% if user_has_liked %}
+                <a href="{% url 'b-like-post' post.id %}"><button>UNLIKE</button></a>
+        {% else %}
+                <a href="{% url 'b-like-post' post.id %}"><button>LIKE</button></a>
+        {% endif %}
+
+        <div class="comment-section">
+            <h3>Comments</h3>
+            
+            <form method="POST" class="comment-form">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="comment-button">Comment</button>
+            </form>
+            
+            <div class="comments">
+                {% for comment in comments %}
+                <div class="comment">
+                    <hr>
+                    <a href="{% url 'u-profile' comment.author.username %}" class="post-link" >
+                    <div class="comment-user-info">
+                        <div class="comment-profile-picture">
+                            <img src="{{comment.author.profile.picture.url}}" alt="Comment User Profile Picture">
+                        </div>
+                        <div class="comment-username">{{comment.author.username}}</div>
+                    </div>
+                    </a>
+                    <p class="comment-content">{{comment.comment|linebreaks}}</p>
+                    <br>
+                    {% if comment.author == user %}
+                    <div class="comment-detail-actions">
+                        <a class="comment-detail-delete-button" href="{% url 'b-delete-comment' comment.id %}">Delete</a>
+                    </div>
+                    {% endif %}
+                </div>
+                <hr>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

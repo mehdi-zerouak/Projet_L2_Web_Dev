@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fakebook</title>
+    <title>FakeBook</title>
 </head>
 <body>
-    <div class="add-post-container" >
-        <h2>Update Profile</h2>
-        <form method="POST" enctype="multipart/form-data" >
+    <div class="update-comment-container">
+        <h2> Update comment </h2>
+        <form method="POST" >
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit" class="add-post-button">Update</button>
+            <button type="submit" class="update-comment-button"> Update </button>
         </form>
     </div>
 </body>
