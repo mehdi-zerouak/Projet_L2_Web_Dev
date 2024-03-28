@@ -3,56 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Fakebook </title>
+    <title>Fakebook</title>
+    <style>
+        /* basic css styling just for testing */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f2f5;
+        }
+        .post {
+            background-color: #fff;
+            margin: 20px auto;
+            padding: 20px;
+            width: 80%;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .post-header {
+            margin-bottom: 10px;
+        }
+        .author-username {
+            color: #333;
+            margin-bottom: 5px;
+        }
+        .author-profile-picture {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 10px;
+        }
+        .post-title h3 {
+            color: #007bff;
+        }
+        .post-content p {
+            color: #555;
+        }
+        .post-content img {
+            max-width: 100%;
+            height: auto;
+            margin-top: 10px;
+            border-radius: 5px;
+        }
+        .post-info {
+            color: #888;
+        }
+        .post-author-info:hover {
+            background-color: #f0f0f0;
+        }
+        .post-body:hover {
+            background-color: #f0f0f0;
+        }
+    </style>
 </head>
 <body>
     <!-- navbar here -->
-    <h1> blog </h1>
+    <h1>Blog</h1>
     <a href="{% url 'b-create-post' %}">Create post</a>
     <hr>
     {% for post in posts %}
         <div class="post">
 
             <div class="post-header">
-
-                <hr>
-                <a href="{% url 'u-profile' post.author.username %}"> 
+                <a href="{% url 'u-profile' post.author.username %}">
                     <div class="post-author-info">
                         <h5 class="author-username">{{ post.author.username }}</h5>
                         <img src="{{ post.author.profile.picture.url }}" alt="pfp" class="author-profile-picture">
                     </div>
                 </a>
-                <hr>
-
-                <a href="{% url 'b-post' post.id %}"> 
+                <a href="{% url 'b-post' post.id %}">
                     <div class="post-title">
                         <h3>{{post.title}}</h3>
                     </div>
                 </a>
-
             </div>
 
             <div class="post-body">
-
-                <a href="{% url 'b-post' post.id %}"> 
+                <a href="{% url 'b-post' post.id %}">
                     <div class="post-content">
-                        <p>{{post.content}}</p>
+                        <p>{{post.content|linebreaksbr}}</p>
                         {% if post.image %}
                         <img src="{{post.image.url}}" alt="post image">
                         {% endif %}
                     </div>
                 </a>
-
             </div>
-
-            <br>
 
             <div class="post-info">
-                <p>Likes: {{post.likes.count}} </p>
-                <p>Comments: {{post.comments.count}} </p>
+                <p>Likes: {{post.likes.count}}</p>
+                <p>Comments: {{post.comments.count}}</p>
             </div>
-
-            <hr><hr>
 
         </div>
     {% endfor %}

@@ -4,6 +4,69 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fakebook</title>
+    <style>
+        /* basic css styles for testing only */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f2f5;
+        }
+        .post-detail-container {
+            background-color: #fff;
+            margin: 20px auto;
+            padding: 20px;
+            width: 80%;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .post-detail-header {
+            margin-bottom: 20px;
+        }
+        .post-detail-profile-picture img,
+        .comment-profile-picture img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 10px;
+        }
+        .post-detail-title {
+            color: #007bff;
+            margin-bottom: 10px;
+        }
+        .post-detail-content {
+            margin-bottom: 20px;
+        }
+        .post-detail-image {
+            max-width: 100%;
+            height: auto;
+            margin-top: 10px;
+            border-radius: 5px;
+        }
+        .post-detail-actions {
+            margin-bottom: 20px;
+        }
+        .comment-section {
+            margin-top: 20px;
+        }
+        .comments {
+            margin-top: 20px;
+        }
+        .comment {
+            margin-bottom: 20px;
+        }
+        .comment-detail-actions {
+            margin-top: 10px;
+        }
+        .post-detail-user-info:hover {
+            background-color: #f0f0f0;
+        }
+        .post-detail-content:hover {
+            background-color: #f0f0f0;
+        }
+    </style>
 </head>
 <body>
     
@@ -12,22 +75,22 @@
         <div class="post-detail-header">
 
             <a href="{% url 'u-profile' post.author.username %}" class="profile-link" >
-            <div class="post-detail-user-info">
+                <div class="post-detail-user-info">
 
-                <div class="post-detail-profile-picture">
-                    <img src="{{post.author.profile.picture.url}}" alt="User Profile Picture">
+                    <div class="post-detail-profile-picture">
+                        <img src="{{post.author.profile.picture.url}}" alt="User Profile Picture">
+                    </div>
+
+                    <div class="post-detail-username">{{post.author.username}}</div>
+
                 </div>
-
-                <div class="post-detail-username">{{post.author.username}}</div>
-
-            </div>
             </a>
-            <h2 class="post-detail-title">  {{post.title}} </h2>
+            <h2 class="post-detail-title">{{post.title}}</h2>
 
-    </div>
+        </div>
 
         <div class="post-detail-content">
-            <p class="post-detail-content">{{post.content|linebreaksbr}}</p>
+            <p>{{post.content|linebreaksbr}}</p>
             {% if post.image %}
             <img class="post-detail-image" src="{{post.image.url}}" alt="Post Image">
             {% endif %}
@@ -43,9 +106,9 @@
         </div>
 
         {% if user_has_liked %}
-                <a href="{% url 'b-like-post' post.id %}"><button>UNLIKE</button></a>
+                <a href="{% url 'b-like-post' post.id %}"><button>UNLIKE</button></a><p>{{post.likes.count}} Likes</p>
         {% else %}
-                <a href="{% url 'b-like-post' post.id %}"><button>LIKE</button></a>
+                <a href="{% url 'b-like-post' post.id %}"><button>LIKE</button></a><p>{{post.likes.count}} Likes</p>
         {% endif %}
 
         <div class="comment-section">
@@ -62,12 +125,12 @@
                 <div class="comment">
                     <hr>
                     <a href="{% url 'u-profile' comment.author.username %}" class="post-link" >
-                    <div class="comment-user-info">
-                        <div class="comment-profile-picture">
-                            <img src="{{comment.author.profile.picture.url}}" alt="Comment User Profile Picture">
+                        <div class="comment-user-info">
+                            <div class="comment-profile-picture">
+                                <img src="{{comment.author.profile.picture.url}}" alt="Comment User Profile Picture">
+                            </div>
+                            <div class="comment-username">{{comment.author.username}}</div>
                         </div>
-                        <div class="comment-username">{{comment.author.username}}</div>
-                    </div>
                     </a>
                     <p class="comment-content">{{comment.comment|linebreaks}}</p>
                     <br>
