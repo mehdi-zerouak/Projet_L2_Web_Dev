@@ -7,7 +7,7 @@ from users import urls as users_urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include(users_urls)),
-    path('blog/', include(blog_urls)),
-    path('marketplace/', include(marketplace_urls)),
+    path('', include(users_urls , namespace="user")),
+    path('blog/', include(blog_urls , namespace="blog")),
+    path('marketplace/', include(marketplace_urls , namespace="marketplace")),
 ]

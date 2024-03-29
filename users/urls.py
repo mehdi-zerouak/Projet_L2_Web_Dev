@@ -5,11 +5,13 @@ from django.urls import path
 from users import views
 from django.contrib.auth import views as auth_views
 
+app_name = 'user'
+
 urlpatterns = [
     # AUTH urls ------------------------------------------------------------------------------------------------------------
      path('' , views.home , name = 'u-home'),
      path('login/' , views.Login.as_view() , name = 'u-login'),
-     path('logout/' , auth_views.LogoutView.as_view(next_page="u-home") , name = 'u-logout'),
+     path('logout/' , auth_views.LogoutView.as_view(next_page="user:u-home") , name = 'u-logout'),
      path('register/' , views.Register.as_view() , name='u-register'),
                # --------- password reset urls ---------
      path('password-reset/', views.custom_password_reset ,name='password_reset'),
@@ -26,8 +28,14 @@ urlpatterns = [
      # PROFILE urls ---------------------------------------------------------------------------------------------------------
      path('profile/<str:username>' , views.profile , name='u-profile'),
      path('update-profile/<int:pk>' , views.UpdateProfile.as_view() , name='u-update-profile'),
+                        # --------- friends stuff urls --------- 
+    path('send-friend-request/<int:pk>' , views.send_friend_request , name="u-send-friend-request"),
+    path('accept-friend-request/<int:pk>' , views.accept_friend_request , name='u-accept-friend-request'),
+    path('remove-friend/<int:pk>' , views.remove_friend , name='u-remove-friend'),
+    path('friend-requests-list/<str:username>' , views.friend_requests_list , name='u-friend-requests-list'),
+    path('friends-list/<str:username>' , views.friends_list , name='u-friends-list'),
+                        # --------------------------------------
      # ----------------------------------------------------------------------------------------------------------------------
-
 ]
 
 if settings.DEBUG:

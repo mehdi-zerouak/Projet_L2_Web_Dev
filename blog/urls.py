@@ -2,6 +2,8 @@
 from django.urls import path 
 from blog import views
 
+app_name = 'blog'
+
 urlpatterns = [
     path('' , views.home , name = 'b-home'),
     path('post/<int:pk>' , views.detail_post , name = 'b-post'), # detail page + add comment form

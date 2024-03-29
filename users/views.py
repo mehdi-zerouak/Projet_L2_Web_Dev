@@ -1,7 +1,7 @@
 # users views
-from django.http import HttpResponseRedirect
-from django.shortcuts import render , redirect
-from django.urls import reverse_lazy
+from django.http import HttpResponseRedirect , HttpResponse
+from django.shortcuts import render , redirect , get_object_or_404
+from django.urls import reverse_lazy 
 from django.contrib.auth.views import LoginView
 from django.views.generic import CreateView , UpdateView
 from django.contrib.auth.models import User
@@ -9,7 +9,7 @@ from django.contrib.auth import authenticate , login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import UserCreationFormCostum , ProfileForm
-from .models import Profile
+from .models import Profile , FriendRequest
 
 # imports for the custoum password reset view ---------
 from django.contrib.auth.forms import PasswordResetForm
@@ -31,7 +31,7 @@ class Login(LoginView):
     redirect_authenticated_user = True
 
     def get_success_url(self):
-        return reverse_lazy('u-home')
+        return reverse_lazy('user:u-home')
     
 # Register view
 class Register(CreateView):
@@ -63,7 +63,7 @@ class Register(CreateView):
                         fail_silently=False,
                     )
         # redirect
-        return HttpResponseRedirect(reverse_lazy('u-home'))
+        return HttpResponseRedirect(reverse_lazy('user:u-home'))
     
 # costum reset password view
 def custom_password_reset(request):
@@ -93,7 +93,7 @@ def custom_password_reset(request):
                         fail_silently=False,
                     )
 
-                return redirect('password_reset_done')
+                return redirect('user:password_reset_done')
     else:
         form = PasswordResetForm()
     return render(request, 'users/password-reset.html', {'form': form})
@@ -103,8 +103,10 @@ def custom_password_reset(request):
 def profile(request , username):
     user = User.objects.get(username=username)
     profile = Profile.objects.get(user=user)
+    # check if user is friend with the profile user
+    is_friend = profile.friends.contains(request.user)
     # we also gonna pass user posts in the context when the blog app is ready
-    context = {'profile':profile}
+    context = {'profile':profile , 'is_friend':is_friend}
     return render(request , 'users/profile.html' , context)
 
 
@@ -117,7 +119,68 @@ class UpdateProfile(LoginRequiredMixin , UpdateView):
         profile_id = self.kwargs['pk']
         profile = Profile.objects.get(id=profile_id)
         username = profile.user.username
-        return reverse_lazy('u-profile' , kwargs={'username':username})
+        return reverse_lazy('user:u-profile' , kwargs={'username':username})
 
     def get_queryset(self):
         return super().get_queryset().filter(user=self.request.user)
+    
+
+# friends views
+
+@login_required  
+def send_friend_request(request, pk):
+    user = request.user
+    requested_user = get_object_or_404(User , id=pk)
+    user_profile = Profile.objects.get(user=user)
+    # if requested user is already a friend
+    if user_profile.friends.contains(requested_user):
+        return HttpResponse('requested user is already your friend!')
+    # if friend request was already sent
+    elif FriendRequest.objects.filter(from_user=user , to_user=requested_user).exists():
+        return HttpResponse('friend request was already sent')
+    else:
+        friend_request = FriendRequest(from_user=user , to_user=requested_user)
+        friend_request.save()
+        return HttpResponse('friend request sent')
+    
+
+@login_required
+def accept_friend_request(request , pk):
+    friend_request = FriendRequest.objects.get(id=pk)
+    # if the request concern the user
+    if friend_request.to_user == request.user:
+        friend_request.from_user.profile.friends.add(friend_request.to_user)
+        friend_request.to_user.profile.friends.add(friend_request.from_user)
+        # delete the friend request 
+        friend_request.delete()
+        return HttpResponse('friend request accepted')
+    else:
+        return HttpResponse('Error')
+    
+
+@login_required
+def remove_friend(request , pk):
+    friend = get_object_or_404(User , id=pk)
+    user = request.user
+    if user.profile.friends.contains(friend):
+        user.profile.friends.remove(friend)
+        friend.profile.friends.remove(user)
+        return HttpResponse('friend removed')
+    else:
+        return HttpResponse('Error: user was not found in your friends list')    
+
+@login_required
+def friend_requests_list(request , username):
+    user = get_object_or_404(User, username=username)
+    if user != request.user:
+        return HttpResponse('Error occured')
+    friend_requests = FriendRequest.objects.filter(to_user=user)
+    context = {'requests':friend_requests}
+    return render(request , 'users/friend-requests-list.html' , context)
+
+@login_required
+def friends_list(request , username):
+    user = get_object_or_404(User, username=username)
+    friends = user.profile.friends.all()
+    context = {'friends':friends , 'this_user':user}
+    return render(request , 'users/friends-list.html' , context)

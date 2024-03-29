@@ -59,21 +59,32 @@
     </style>
 </head>
 <body>
-    <!-- navbar here -->
+    
+    <!-- navbar for testing only , with simple css -->
+    <div style="background-color: #007bff; padding: 10px;">
+        <span style="font-size: 24px; color: #fff; margin-right: 20px;">Fakebook</span>
+        <input type="text" placeholder="Search" style="padding: 5px; border-radius: 5px; border: none; margin-right: 20px;">
+        <a href="{% url 'blog:b-home' %}" style="color: #fff; text-decoration: none; margin-right: 20px; transition: color 0.3s;">Blog</a>
+        <a href="{% url 'marketplace:mp-home' %}" style="color: #fff; text-decoration: none; margin-right: 20px; transition: color 0.3s;">Marketplace</a>
+        <a href="{% url 'user:u-profile' user.username %}" style="color: #fff; text-decoration: none; margin-right: 20px; transition: color 0.3s;">Profile</a>
+        <a href="{% url 'user:u-logout' %}" style="color: #fff; text-decoration: none; transition: color 0.3s;">Logout</a>
+    </div>
+    <!------------------------------------------------>
+
     <h1>Blog</h1>
-    <a href="{% url 'b-create-post' %}">Create post</a>
+    <a href="{% url 'blog:b-create-post' %}">Create post</a>
     <hr>
     {% for post in posts %}
         <div class="post">
 
             <div class="post-header">
-                <a href="{% url 'u-profile' post.author.username %}">
+                <a href="{% url 'user:u-profile' post.author.username %}">
                     <div class="post-author-info">
                         <h5 class="author-username">{{ post.author.username }}</h5>
                         <img src="{{ post.author.profile.picture.url }}" alt="pfp" class="author-profile-picture">
                     </div>
                 </a>
-                <a href="{% url 'b-post' post.id %}">
+                <a href="{% url 'blog:b-post' post.id %}">
                     <div class="post-title">
                         <h3>{{post.title}}</h3>
                     </div>
@@ -81,7 +92,7 @@
             </div>
 
             <div class="post-body">
-                <a href="{% url 'b-post' post.id %}">
+                <a href="{% url 'blog:b-post' post.id %}">
                     <div class="post-content">
                         <p>{{post.content|linebreaksbr}}</p>
                         {% if post.image %}
