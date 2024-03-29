@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # -- phone field 'phonenumber_field',
+    'phonenumber_field',
     # -- our apps
     'users.apps.UsersConfig',
     'blog.apps.BlogConfig',
@@ -135,7 +137,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # LOGIN
 
-LOGIN_URL = 'login/'
+LOGIN_URL = 'users:u-login'
 
 # SMTP conf -------------------------------------------
 
@@ -147,3 +149,7 @@ EMAIL_HOST_USER = 'fakebook.projet.l2@gmail.com'
 EMAIL_HOST_PASSWORD = os.environ.get('FAKEBOOK_EMAIL_HOST_PASSWORD')
 
 # -----------------------------------------------------
+
+
+PHONENUMBER_DB_FORMAT = 'NATIONAL'
+PHONENUMBER_DEFAULT_REGION = 'DZ'

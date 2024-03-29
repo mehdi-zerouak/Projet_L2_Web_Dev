@@ -43,7 +43,7 @@ class CreatePost(LoginRequiredMixin , CreateView):
         post = form.save(commit=False)   
         post.author = self.request.user
         post.save()
-        return HttpResponseRedirect(reverse_lazy('b-home'))
+        return HttpResponseRedirect(reverse_lazy('blog:b-home'))
     
 
 class UpdatePost(LoginRequiredMixin , UpdateView):
@@ -52,7 +52,7 @@ class UpdatePost(LoginRequiredMixin , UpdateView):
     template_name = 'blog/update-post.html'
 
     def get_success_url(self):
-        return reverse_lazy('b-post' , kwargs={'pk':self.kwargs['pk']})
+        return reverse_lazy('blog:b-post' , kwargs={'pk':self.kwargs['pk']})
 
     def get_queryset(self):
         return super().get_queryset().filter(author=self.request.user)
@@ -62,7 +62,7 @@ class UpdatePost(LoginRequiredMixin , UpdateView):
 def delete_post(request , pk):
     post = Post.objects.filter(Q(author=request.user) & Q(id=pk))
     post.delete()
-    return redirect('b-home')
+    return redirect('blog:b-home')
 
 
 @login_required
@@ -70,7 +70,7 @@ def delete_comment(request , pk):
     comment = PostComment.objects.get(Q(author=request.user) & Q(id=pk))
     pk = comment.post.id
     comment.delete()
-    return redirect(reverse('b-post' , kwargs={'pk':pk}))
+    return redirect(reverse('blog:b-post' , kwargs={'pk':pk}))
 
 
 @login_required
@@ -83,4 +83,4 @@ def like_post(request , pk):
     else: # else like
         PostLikes.objects.create(user=user, post=post)
 
-    return redirect(reverse('b-post' , kwargs={'pk':pk}))
+    return redirect(reverse('blog:b-post' , kwargs={'pk':pk}))

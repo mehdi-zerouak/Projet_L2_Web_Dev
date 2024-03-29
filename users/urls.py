@@ -5,6 +5,9 @@ from django.urls import path
 from users import views
 from django.contrib.auth import views as auth_views
 
+#for namespace
+app_name = 'users'
+
 urlpatterns = [
     # AUTH urls ------------------------------------------------------------------------------------------------------------
      path('' , views.home , name = 'u-home'),

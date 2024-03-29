@@ -31,7 +31,7 @@ class Login(LoginView):
     redirect_authenticated_user = True
 
     def get_success_url(self):
-        return reverse_lazy('u-home')
+        return reverse_lazy('user:u-home')
     
 # Register view
 class Register(CreateView):
@@ -63,7 +63,7 @@ class Register(CreateView):
                         fail_silently=False,
                     )
         # redirect
-        return HttpResponseRedirect(reverse_lazy('u-home'))
+        return HttpResponseRedirect(reverse_lazy('user:u-home'))
     
 # costum reset password view
 def custom_password_reset(request):
@@ -93,7 +93,7 @@ def custom_password_reset(request):
                         fail_silently=False,
                     )
 
-                return redirect('password_reset_done')
+                return redirect('user:password_reset_done')
     else:
         form = PasswordResetForm()
     return render(request, 'users/password-reset.html', {'form': form})
@@ -117,7 +117,7 @@ class UpdateProfile(LoginRequiredMixin , UpdateView):
         profile_id = self.kwargs['pk']
         profile = Profile.objects.get(id=profile_id)
         username = profile.user.username
-        return reverse_lazy('u-profile' , kwargs={'username':username})
+        return reverse_lazy('user:u-profile' , kwargs={'username':username})
 
     def get_queryset(self):
         return super().get_queryset().filter(user=self.request.user)

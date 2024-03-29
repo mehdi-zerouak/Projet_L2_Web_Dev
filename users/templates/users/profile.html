@@ -22,7 +22,7 @@
 
         {% if profile.user == user %}
         <div class="profile-detail-actions">
-            <a href="{% url 'u-update-profile' profile.id %}" class="profile-update-button">Update</a>
+            <a href="{% url 'user:u-update-profile' profile.id %}" class="profile-update-button">Update</a>
         </div>
         {% endif %}
 
