@@ -30,7 +30,7 @@
     <h1> Logged in successfully </h1>
     <a href="{% url 'user:u-profile' user.username %}"><p>Your Profile</p></a>
     <a href="logout/"><p>logout</p></a>
-    <a href="{% url 'blog:b-home' %}"><p>Blog</p></a>
+
     {% else %}
     <h1> You're not logged in </h1>
     <a href="login/"><p>login</p></a>

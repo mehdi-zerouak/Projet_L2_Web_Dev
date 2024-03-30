@@ -12,7 +12,7 @@ class Product(models.Model):
     label = models.CharField(max_length=20)
     price = models.DecimalField(max_digits=10,decimal_places=2)
     phone = PhoneNumberField()
-    image = models.ImageField(upload_to=product_directory_path)
+    image = models.ImageField(upload_to=product_directory_path , blank=True)
     description = models.TextField(max_length=200)
     quantity = models.PositiveBigIntegerField(default=0)
 
