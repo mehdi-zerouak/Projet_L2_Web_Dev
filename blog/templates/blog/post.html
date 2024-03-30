@@ -70,6 +70,17 @@
 </head>
 <body>
     
+    <!-- navbar for testing only , with simple css -->
+    <div style="background-color: #007bff; padding: 10px;">
+        <span style="font-size: 24px; color: #fff; margin-right: 20px;">Fakebook</span>
+        <input type="text" placeholder="Search" style="padding: 5px; border-radius: 5px; border: none; margin-right: 20px;">
+        <a href="{% url 'blog:b-home' %}" style="color: #fff; text-decoration: none; margin-right: 20px; transition: color 0.3s;">Blog</a>
+        <a href="{% url 'marketplace:mp-home' %}" style="color: #fff; text-decoration: none; margin-right: 20px; transition: color 0.3s;">Marketplace</a>
+        <a href="{% url 'user:u-profile' user.username %}" style="color: #fff; text-decoration: none; margin-right: 20px; transition: color 0.3s;">Profile</a>
+        <a href="{% url 'user:u-logout' %}" style="color: #fff; text-decoration: none; transition: color 0.3s;">Logout</a>
+    </div>
+    <!------------------------------------------------>
+
     <div class="post-detail-container">
 
         <div class="post-detail-header">

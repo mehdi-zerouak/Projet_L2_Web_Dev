@@ -1,0 +1,108 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fakebook</title>
+    <style>
+        /* simple css for testing */
+        body {
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+                background-color: #f0f2f5;
+            }
+        .friends-container {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .friend {
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 10px;
+            padding: 10px;
+        }
+        .friend-user-info {
+            display: flex;
+            align-items: center;
+        }
+        .friend-user-info img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        .friend-buttons {
+            margin-top: 10px;
+        }
+        .friend-buttons button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <!-- navbar for testing only , with simple css -->
+    <div style="background-color: #007bff; padding: 10px;">
+        <span style="font-size: 24px; color: #fff; margin-right: 20px;">Fakebook</span>
+        <input type="text" placeholder="Search" style="padding: 5px; border-radius: 5px; border: none; margin-right: 20px;">
+        <a href="{% url 'blog:b-home' %}" style="color: #fff; text-decoration: none; margin-right: 20px; transition: color 0.3s;">Blog</a>
+        <a href="{% url 'marketplace:mp-home' %}" style="color: #fff; text-decoration: none; margin-right: 20px; transition: color 0.3s;">Marketplace</a>
+        <a href="{% url 'user:u-profile' user.username %}" style="color: #fff; text-decoration: none; margin-right: 20px; transition: color 0.3s;">Profile</a>
+        <a href="{% url 'user:u-logout' %}" style="color: #fff; text-decoration: none; transition: color 0.3s;">Logout</a>
+    </div>
+    <!------------------------------------------------>
+
+    {% if user == this_user %} <!---------------------------------------->
+
+    <h2>Your friends</h2>
+    {% if friends %}
+        <div class="friends-container">
+        {% for friend in friends %}
+            <div class="friend">
+                <!-- USER INFO -->
+                <a href="{% url 'user:u-profile' friend.username %}">
+                <div class="friend-user-info">
+                    <img src="{{ friend.profile.picture.url }}" alt="User Picture">
+                    <p>{{ friend.username }}</p>
+                </div>
+                </a>
+                <!-- -------- -->
+                <div class="friend-buttons">
+                    <a href="{% url 'user:u-remove-friend' friend.id %}"><button>REMOVE</button></a>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    {% else %}
+        <h4>You have 0 friends</h4>
+    {% endif %}
+
+    {% else %}  <!---------------------------------------->
+
+    <h2>{{user.username}} friends</h2>
+    {% if friends %}
+        <div class="friends-container">
+        {% for friend in friends %}
+            <div class="friend">
+                <!-- USER INFO -->
+                <a href="{% url 'user:u-profile' friend.username %}">
+                <div class="friend-user-info">
+                    <img src="{{ friend.profile.picture.url }}" alt="User Picture">
+                    <p>{{ friend.username }}</p>
+                </div>
+                </a>
+            </div>
+        {% endfor %}
+        </div>
+    {% else %}
+        <h4>You have 0 friends</h4>
+    {% endif %}
+
+    {% endif %}  <!---------------------------------------->
+</body>
+</html>
