@@ -16,10 +16,11 @@ class Post(models.Model):
     #compress the image 
     def save(self , *args , **kwargs):
         super().save()
-        image = Image.open(self.image.path)
-        if image.height > 700 or image.width > 700:
-            image.thumbnail((700 , 700))
-            image.save(self.image.path)
+        if self.image:
+            image = Image.open(self.image.path)
+            if image.height > 700 or image.width > 700:
+                image.thumbnail((700 , 700))
+                image.save(self.image.path)
 
 
 
