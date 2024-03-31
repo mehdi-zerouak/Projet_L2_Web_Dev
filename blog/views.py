@@ -1,6 +1,7 @@
 # blog views
 from django.shortcuts import render , redirect , get_object_or_404
 from .models import Post , PostComment , PostLikes
+from django.contrib.auth.models import User
 from .forms import PostForm , PostCommentForm
 from django.views.generic import CreateView , UpdateView
 from django.contrib.auth.decorators import login_required
@@ -14,8 +15,20 @@ from django.db.models import Q
 @login_required
 def home(request):
     posts = Post.objects.all().order_by('-created_date')
-    return render(request , 'blog/index.html' , {'posts':posts} )
+    user = request.user
+    friends = user.profile.friends.all()
+    return render(request , 'blog/index.html' , {'posts':posts , 'friends':friends} )
 
+@login_required
+def search(request):
+    if 'query' in request.GET and request.GET['query']:
+        query = request.GET['query']
+        posts = Post.objects.filter(Q(title__icontains = query) | Q(content__icontains = query) )
+        users = User.objects.filter(username__icontains = query)
+        context = {'posts':posts , 'users':users}
+        return render(request , 'blog/search.html' , context)
+    else:
+        return redirect('blog:b-home')
 
 @login_required
 def detail_post(request , pk):

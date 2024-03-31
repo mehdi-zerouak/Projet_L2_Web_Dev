@@ -1,0 +1,52 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fakebook</title>
+</head>
+<body>
+
+    <!-- navbar for testing only , with simple css -->
+    <div style="background-color: #007bff; padding: 10px;">
+        <span style="font-size: 24px; color: #fff; margin-right: 20px;">Fakebook</span>
+        <!-- for now this will work only in blog home page and results page -->
+        <form  action="{% url 'blog:b-search' %}" method="get">
+            <input type="search" name="query" placeholder="Search">
+            <button  type="submit" value="Search">Search</button>
+        </form>
+        <!-- --------------------------------------------- -->
+        <a href="{% url 'blog:b-home' %}" style="color: #fff; text-decoration: none; margin-right: 20px; transition: color 0.3s;">Blog</a>
+        <a href="{% url 'marketplace:mp-home' %}" style="color: #fff; text-decoration: none; margin-right: 20px; transition: color 0.3s;">Marketplace</a>
+        <a href="{% url 'user:u-profile' user.username %}" style="color: #fff; text-decoration: none; margin-right: 20px; transition: color 0.3s;">Profile</a>
+        <a href="{% url 'user:u-logout' %}" style="color: #fff; text-decoration: none; transition: color 0.3s;">Logout</a>
+    </div>
+
+    <h3> -- Users -- </h3>
+    {% if users %}
+        {% for usr in users %}
+            <div class="users">
+                <a href="{% url 'user:u-profile' usr.username %}"> <h5> {{usr.username}} </h5> </a>
+                <img src="{{usr.profile.picture.url}}" alt="user picture">
+            </div>
+            <br>
+        {% endfor %}
+    {% else %}
+            <h4> 0 users matched your search! </h4>
+    {% endif %}
+
+    <h3> -- Posts -- </h3>
+    {% if posts %}
+        {% for post in posts %}
+            <div class="posts">
+                <a href="{% url 'blog:b-post' post.id %}"> <h5> {{post.title}} </h5> </a>
+                <p> {{post.content}} </p>
+                <img src="{{post.image.url}}" alt="post picture">
+            </div>
+            <br>
+        {% endfor %}
+    {% else %}
+            <h4> No posts matched your search! </h4>
+    {% endif %}
+
+</body>
+</html>

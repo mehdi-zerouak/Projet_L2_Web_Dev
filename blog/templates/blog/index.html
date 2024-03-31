@@ -63,7 +63,12 @@
     <!-- navbar for testing only , with simple css -->
     <div style="background-color: #007bff; padding: 10px;">
         <span style="font-size: 24px; color: #fff; margin-right: 20px;">Fakebook</span>
-        <input type="text" placeholder="Search" style="padding: 5px; border-radius: 5px; border: none; margin-right: 20px;">
+        <!-- for now this will work only in blog home page and results page -->
+        <form  action="{% url 'blog:b-search' %}" method="get">
+            <input type="search" name="query" placeholder="Search">
+            <button  type="submit" value="Search">Search</button>
+        </form>
+        <!-- --------------------------------------------- -->
         <a href="{% url 'blog:b-home' %}" style="color: #fff; text-decoration: none; margin-right: 20px; transition: color 0.3s;">Blog</a>
         <a href="{% url 'marketplace:mp-home' %}" style="color: #fff; text-decoration: none; margin-right: 20px; transition: color 0.3s;">Marketplace</a>
         <a href="{% url 'user:u-profile' user.username %}" style="color: #fff; text-decoration: none; margin-right: 20px; transition: color 0.3s;">Profile</a>
@@ -109,5 +114,16 @@
 
         </div>
     {% endfor %}
+
+        <h2> Your friends </h2>
+
+    {% for friend in friends %}
+    
+        <div class="friends">
+            <p> # {{friend.username}} </p>
+        </div>
+
+    {% endfor %}
+
 </body>
 </html>

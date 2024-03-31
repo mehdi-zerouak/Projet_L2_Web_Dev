@@ -30,11 +30,11 @@ urlpatterns = [
      path('profile/<str:username>' , views.profile , name='u-profile'),
      path('update-profile/<int:pk>' , views.UpdateProfile.as_view() , name='u-update-profile'),
                         # --------- friends stuff urls --------- 
-    path('send-friend-request/<int:pk>' , views.send_friend_request , name="u-send-friend-request"),
-    path('accept-friend-request/<int:pk>' , views.accept_friend_request , name='u-accept-friend-request'),
-    path('remove-friend/<int:pk>' , views.remove_friend , name='u-remove-friend'),
-    path('friend-requests-list/<str:username>' , views.friend_requests_list , name='u-friend-requests-list'),
-    path('friends-list/<str:username>' , views.friends_list , name='u-friends-list'),
+     path('send-friend-request/<int:pk>' , views.send_friend_request , name="u-send-friend-request"),
+     path('accept-friend-request/<int:pk>' , views.accept_friend_request , name='u-accept-friend-request'),
+     path('remove-friend/<int:pk>' , views.remove_friend , name='u-remove-friend'),
+     path('friend-requests-list/<str:username>' , views.friend_requests_list , name='u-friend-requests-list'),
+     path('friends-list/<str:username>' , views.friends_list , name='u-friends-list'),
                         # --------------------------------------
      # ----------------------------------------------------------------------------------------------------------------------
 ]
