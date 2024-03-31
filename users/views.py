@@ -141,7 +141,7 @@ def send_friend_request(request, pk):
     else:
         friend_request = FriendRequest(from_user=user , to_user=requested_user)
         friend_request.save()
-        return HttpResponse('friend request sent')
+        return HttpResponseRedirect(reverse_lazy('user:u-profile' , kwargs = {'username':requested_user.username}))
     
 
 @login_required
@@ -153,7 +153,7 @@ def accept_friend_request(request , pk):
         friend_request.to_user.profile.friends.add(friend_request.from_user)
         # delete the friend request 
         friend_request.delete()
-        return HttpResponse('friend request accepted')
+        return HttpResponseRedirect(reverse_lazy('user:u-profile' , kwargs = {'username':request.user.username}))
     else:
         return HttpResponse('Error')
     
@@ -165,7 +165,7 @@ def remove_friend(request , pk):
     if user.profile.friends.contains(friend):
         user.profile.friends.remove(friend)
         friend.profile.friends.remove(user)
-        return HttpResponse('friend removed')
+        return HttpResponseRedirect(reverse_lazy('user:u-profile' , kwargs = {'username':request.user.username}))
     else:
         return HttpResponse('Error: user was not found in your friends list')    
 
