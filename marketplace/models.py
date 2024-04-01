@@ -7,6 +7,12 @@ from phonenumber_field.modelfields import PhoneNumberField
 def product_directory_path(instancce,filename):
     return f"products/{instancce}/{filename}"
 
+class Category(models.Model):
+    name = models.CharField(max_length=50)
+    def __str__(self):
+        return self.name
+
+
 class Product(models.Model):
     user = models.ForeignKey(User,  on_delete=models.CASCADE)
     label = models.CharField(max_length=20)
@@ -15,6 +21,6 @@ class Product(models.Model):
     image = models.ImageField(upload_to=product_directory_path)
     description = models.TextField(max_length=200)
     quantity = models.PositiveBigIntegerField(default=0)
-
+    category = models.ForeignKey(Category, blank=True,null=True, on_delete=models.CASCADE)
     def __str__(self):
         return self.label

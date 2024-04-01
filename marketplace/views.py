@@ -2,13 +2,13 @@
 from django.db.models.query import QuerySet
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from .models import Product
+from .models import Product,Category
 from users.models import Profile
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import CreateView,DetailView,DeleteView,UpdateView,ListView
-from .forms import CreateProductForm
-
+from django.views.generic import CreateView,DetailView,DeleteView,UpdateView,ListView,View
+from .forms import CreateProductForm,SearchProductsForm
+from django.db.models import Q
 # Create your views here.
 class Products(LoginRequiredMixin,ListView):
     model = Product
@@ -56,3 +56,31 @@ class DeleteProduct(LoginRequiredMixin,DeleteView):
         return queryset
     def get_success_url(self):
         return reverse_lazy("marketplace:mp-home")
+    
+
+
+class FilterProducts(LoginRequiredMixin, View):
+    def get(self, request):
+        form = SearchProductsForm(request.GET)  # Create an instance of the form with GET data
+
+        if form.is_valid():
+            category = form.cleaned_data.get('category', '')  # Get the category from the form
+            max_price = form.cleaned_data.get('max_price', 0)  # Get the max_price from the form
+            name = form.cleaned_data.get('name', '')  # Get the name from the form
+            filter_criteria = Q()  # Initialize an empty Q object for filtering
+
+            if category:
+                filter_criteria &= Q(category=category)
+
+            if max_price:
+                filter_criteria &= Q(price__lte=max_price)
+
+            if name:
+                filter_criteria &= (Q(label__icontains=name) | Q(description__icontains=name))
+
+            filtered_products = Product.objects.filter(filter_criteria)  # Apply filters to the Product queryset
+        else:
+            # If form is not valid, handle accordingly
+            filtered_products = Product.objects.none()
+
+        return render(request, 'marketplace/search.html', {'filtered_products': filtered_products, 'form': form})
