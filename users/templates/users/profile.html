@@ -43,7 +43,13 @@
         {% if profile.user == user %}
 
         <div class="profile-detail-actions">
-            <a href="{% url 'user:u-update-profile' profile.id %}" class="profile-update-button">Update</a>
+            <a href="{% url 'user:u-update-profile' profile.id %}" class="profile-update-button">
+                <button>Update</button>
+            </a>
+
+            <a href="{% url 'user:u-friend-requests-list' profile.user.username %}" class="profile-update-button">
+                <button>Friend requests</button>
+            </a>
         </div>
 
         {% else %}

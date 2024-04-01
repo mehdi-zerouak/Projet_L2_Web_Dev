@@ -5,6 +5,7 @@ class CreateProductForm(forms.ModelForm):
     class Meta:
         model = Product
         fields = ['label', 'price', 'description','quantity','phone','image']
+        
 class SearchProductsForm(forms.Form):
     name = forms.CharField(max_length=50,required=False)
     category = forms.ModelChoiceField(queryset=Category.objects.all(), empty_label="Select category")
