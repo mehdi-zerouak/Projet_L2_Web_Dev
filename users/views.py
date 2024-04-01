@@ -21,8 +21,7 @@ from django.core.mail import send_mail
 
 # Create your views here.
 def home(request):
-    # just to check user auth state, we can delete this later
-    return render(request , 'users/index.html')
+    return redirect('blog:b-home')
 
 # login view
 class Login(LoginView):
@@ -31,7 +30,7 @@ class Login(LoginView):
     redirect_authenticated_user = True
 
     def get_success_url(self):
-        return reverse_lazy('user:u-home')
+        return reverse_lazy('blog:b-home')
     
 # Register view
 class Register(CreateView):
@@ -63,7 +62,7 @@ class Register(CreateView):
                         fail_silently=False,
                     )
         # redirect
-        return HttpResponseRedirect(reverse_lazy('user:u-home'))
+        return HttpResponseRedirect(reverse_lazy('blog:b-home'))
     
 # costum reset password view
 def custom_password_reset(request):

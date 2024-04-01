@@ -58,7 +58,7 @@ form{
     padding: 0 40px;
 }
 h1{
-    font-family: babas;
+    font-family: Times , sans-serif;
     font-size: 55px;
     letter-spacing: 3px;
     margin: 0px 0px 20px 0px;
@@ -74,7 +74,7 @@ h1{
 
 }
 h3{
-    font-family:bab;
+    font-family: sans-serif;
     font-size:25px;
     letter-spacing: 0.3px;
     color: #d1e8e2;
@@ -139,7 +139,18 @@ input{
     width: 100%;
     outline: none;
 }
+
 a{
     text-decoration: none;
-  
+    color: #034748;
   }
+a:hover{
+    text-decoration: none;
+    color: #0f9193;
+  }
+
+.error-message {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+}

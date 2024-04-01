@@ -84,7 +84,7 @@
 
     {% else %}  <!---------------------------------------->
 
-    <h2>{{user.username}} friends</h2>
+    <h2>{{this_user.username}} friends</h2>
     {% if friends %}
         <div class="friends-container">
         {% for friend in friends %}
@@ -100,7 +100,7 @@
         {% endfor %}
         </div>
     {% else %}
-        <h4>You have 0 friends</h4>
+        <h4>{{this_user.username}} have 0 friends</h4>
     {% endif %}
 
     {% endif %}  <!---------------------------------------->
