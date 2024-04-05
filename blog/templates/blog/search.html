@@ -1,52 +1,149 @@
+{% load static %}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fakebook</title>
+    <title> Fakebook | Search </title>
+    <link rel="stylesheet" href="{% static 'styles/blog/search.css' %}">
+    <script src="https://kit.fontawesome.com/f8e3ad68c8.js" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/5665c51b75.js" crossorigin="anonymous"></script>
 </head>
 <body>
-
-    <!-- navbar for testing only , with simple css -->
-    <div style="background-color: #007bff; padding: 10px;">
-        <span style="font-size: 24px; color: #fff; margin-right: 20px;">Fakebook</span>
-        <!-- for now this will work only in blog home page and results page -->
-        <form  action="{% url 'blog:b-search' %}" method="get">
-            <input type="search" name="query" placeholder="Search">
-            <button  type="submit" value="Search">Search</button>
-        </form>
-        <!-- --------------------------------------------- -->
-        <a href="{% url 'blog:b-home' %}" style="color: #fff; text-decoration: none; margin-right: 20px; transition: color 0.3s;">Blog</a>
-        <a href="{% url 'marketplace:mp-home' %}" style="color: #fff; text-decoration: none; margin-right: 20px; transition: color 0.3s;">Marketplace</a>
-        <a href="{% url 'user:u-profile' user.username %}" style="color: #fff; text-decoration: none; margin-right: 20px; transition: color 0.3s;">Profile</a>
-        <a href="{% url 'user:u-logout' %}" style="color: #fff; text-decoration: none; transition: color 0.3s;">Logout</a>
+    <div style="height: 50px;" class="navbar">
+        <ul class="nav1">
+            <li>
+                <div class="logo">
+                    <div class="f">f</div>
+                    <span style="margin-right: 10px;" class="book">ake book</span>
+                    <a href="{% url 'blog:b-home' %}"><button class="btn notf"><i class="fa-solid fa-house"></i> </button></a>
+                </div>
+            </li>
+            
+            
+            <div class="links">
+            
+            <li id="search">
+                
+                <form  action="{% url 'blog:b-search' %}" method="get" style="display: flex;">
+                    <div style="background-color: white;display: flex;border-radius: 30px;width: 300px;">
+                    <input id="input-s" type="search" name="query" placeholder="Search">
+                    <button id="srch-btn" type="submit" value="Search"><i style="color: gray;" class="fa-solid fa-magnifying-glass fa-lg"></i></button>
+                    </div>
+                </form>
+            </li>
+            <li>
+                <a href="{% url 'user:u-profile' user.username %}"><img class="img-pro" src="{{user.profile.picture.url}}"></button></a>
+            </li>
+            <li>
+                <a href="{% url 'user:u-logout' %}"><button class=" btn logout"><i class="fa-solid fa-door-open fa-lg"></i></button></a>
+            </li>
+            </div>
+        </ul>
     </div>
 
-    <h3> -- Users -- </h3>
-    {% if users %}
+<div class="home-container">
+        
+    <ul class="nav2">
+        <a href="{% url 'user:u-friends-list' user.username %}"> <li class="li-list"><button class="bbb"><i class="fa-solid fa-people-line" style="color: #74C0FC;"></i>Friends</button></li></a>
+        <a href="{% url 'user:u-profile' user.username %}"> <li class="li-list"><button class="bbb"><i class="fa-solid fa-user" style="color: #74C0FC;"></i>Profile</button></li></a>
+        <a href="{% url 'marketplace:mp-home' %}"> <li class="li-list"><button class="bbb"><i class="fa-solid fa-shop" style="color: #74C0FC;"></i>Marketplace</button></li></a>
+    </ul>
+
+
+    <div class="posts-contianer">
+        <div class="ppl">
+            <p style="padding: 10px; margin: 0px; font-weight: bold;font-size: 30px;">People :</p>
+        </div>
+        {% if users %}
         {% for usr in users %}
-            <div class="users">
-                <a href="{% url 'user:u-profile' usr.username %}"> <h5> {{usr.username}} </h5> </a>
-                <img src="{{usr.profile.picture.url}}" alt="user picture">
+            <div style="display: flex; flex-direction: row; gap: 30px; margin-bottom: 20px;border-bottom: 1px solid gray;">
+                <div >
+                    <img style="margin: 0px;" class="img-pro" src="{{usr.profile.picture.url}}" alt="">
+                </div>
+                <a href="{% url 'user:u-profile' usr.username %}" style="text-decoration:none; color:black;">
+                <div >
+                    <p style="margin: 0%; font-size: 20px;">{{usr.username}}</p>
+                </div>
+                </a>
+                <div >
+                    <a href="{% url 'user:u-send-friend-request' usr.id %}"><i class="fa-solid fa-plus" style="color: #74C0FC;"></i> </a>
+                </div>
             </div>
-            <br>
         {% endfor %}
-    {% else %}
-            <h4> 0 users matched your search! </h4>
-    {% endif %}
+        {% else %}
+        <h3>No users match your search</h3>
+        {% endif %}
 
-    <h3> -- Posts -- </h3>
-    {% if posts %}
+        
+        <div class="ppl">
+            <p style="padding: 10px; margin: 0px; font-weight: bold;font-size: 30px;">Posts :</p>
+        </div>
+
+        {% if posts %}
+
+        <div style="display: flex;flex-direction: column;">
         {% for post in posts %}
-            <div class="posts">
-                <a href="{% url 'blog:b-post' post.id %}"> <h5> {{post.title}} </h5> </a>
-                <p> {{post.content}} </p>
-                <img src="{{post.image.url}}" alt="post picture">
+        <a href="{% url 'blog:b-post' post.id %}" style="text-decoration:none; color:black;">
+        <div class="the-post">
+            <div class="main-post-1">
+                <img class="img-pro2 img-pro" src="{{ post.author.profile.picture.url }}">
+                <div class="details-post">
+                    <div class="nameus"><p style="margin-bottom: 0px;">{{ post.author.username }}</p></div>
+                    <div class="date-post">{{ post.created_date }}</div> 
+                </div>
             </div>
-            <br>
+            <div class="main-post-2">
+                <h2> {{ post.title }} </h2>
+                {% if post.content %}
+                <p class="disc">{{ post.content|linebreaksbr  }}</p>
+                {% endif %}
+            </div>
+            <div  class="main-post-3">
+                <img class="post-photo" src="{{ post.image.url }}" >
+            </div>
+            <div class="main-post-4">
+                <button class="bbb"> <p><i class="fa-regular fa-thumbs-up fa-lg" style="color: #74C0FC;"></i>Like | {{post.likes.count}}</p></button>
+                <button class="bbb"> <p><i class="fa-regular fa-comment fa-lg" style="color: #74C0FC;"></i>Comment | {{post.comments.count}}</p></button>
+            </div>
+        </div>
+        </a>
         {% endfor %}
-    {% else %}
-            <h4> No posts matched your search! </h4>
-    {% endif %}
+        </div>
 
+        {% else %}
+        <h3>No user username matches your search</h3>
+        {% endif %}
+        
+
+    </div>
+    <div class="hh" style="display: flex; flex-direction: column;width: 20%;margin-left:60px;">
+        <div style="padding-bottom: 10px;">
+            <img style="height: 190px;" src="https://cdn.discordapp.com/attachments/1096118526361739286/1224841412479160461/Fiverr-1.png?ex=661ef575&is=660c8075&hm=1c900e071b231249b68236d745aa8cd65b438ec65fa9436e22b05d2d84596854&" alt="">
+        </div>
+    <div class="friends">
+        <div>
+            <p>Your Friends :</p>
+        </div>
+        {% if friends %}
+        {% for friend in friends %}
+        <div style="display: flex; flex-direction: row; gap: 5px; margin-bottom: 20px;">
+            <div >
+                <img style="margin: 0px;" class="img-pro" src="{{friend.profile.picture.url}}" alt="">
+            </div>
+            <div >
+                <p style="margin: 0%; font-size: 20px;">{{friend.username}}</p>
+            </div>
+            <div >
+                <a href=""><i  class="msg fa-regular fa-message fa-sm"></i> </a>
+            </div>
+        </div>
+        {% endfor %}
+        {% endif %}
+    </div>
+    </div>
+
+</div>
+    
 </body>
 </html>

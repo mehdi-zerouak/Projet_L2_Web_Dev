@@ -21,9 +21,7 @@ urlpatterns = [
      path('password-reset-confirm/<uidb64>/<token>/',
          auth_views.PasswordResetConfirmView.as_view(template_name='users/password-reset-confirm.html'),
          name='password_reset_confirm'),
-     path('password-reset-complete/', 
-         auth_views.PasswordResetCompleteView.as_view(template_name='users/password-reset-complete.html') , 
-         name="password_reset_complete"),
+    # + another auth url path in route url file
                # ----------------------------------------
      # ----------------------------------------------------------------------------------------------------------------------
      # PROFILE urls ---------------------------------------------------------------------------------------------------------

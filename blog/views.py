@@ -25,7 +25,8 @@ def search(request):
         query = request.GET['query']
         posts = Post.objects.filter(Q(title__icontains = query) | Q(content__icontains = query) )
         users = User.objects.filter(username__icontains = query)
-        context = {'posts':posts , 'users':users}
+        friends = request.user.profile.friends.all()
+        context = {'posts':posts , 'users':users , 'friends':friends}
         return render(request , 'blog/search.html' , context)
     else:
         return redirect('blog:b-home')
@@ -69,6 +70,11 @@ class UpdatePost(LoginRequiredMixin , UpdateView):
 
     def get_queryset(self):
         return super().get_queryset().filter(author=self.request.user)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['post'] = self.get_object()  
+        return context
     
 
 @login_required   

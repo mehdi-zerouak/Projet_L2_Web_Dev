@@ -1,0 +1,322 @@
+@font-face{
+    font-family: ff;
+    src: url(/fonts/BebasNeue-Regular.ttf);
+  }
+  @font-face{
+    font-family: gg;
+    src: url(/fonts/NotoSerif-Regular.ttf);
+  }
+  @font-face{
+    font-family: kk;
+    src: url(/fonts/ButterflyKids-Regular.ttf);
+  }
+  body{
+    padding: 0;
+    margin: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #ececec;
+  }
+  .f {
+    color:white; 
+    background-color: #307cf5 ;
+    font-size: 40px;
+    height: 30px;
+    width: 20px;
+    text-align: center;
+    font-family: kk ;
+    letter-spacing: 7px;
+    display: flex;
+    justify-content: center;
+    margin-right: 4px;
+    margin-bottom: 10px;
+  }
+  
+ 
+  .logo {
+    padding-left: 30px;
+    font-size: 25px;
+    font-weight: bold;
+    color:#000; 
+    text-transform: uppercase;
+    display: flex;
+    position: relative;
+    font-family: ff ;
+    letter-spacing: 7px;
+    
+  }
+  .links{
+    display: flex;
+    justify-content: space-around;
+    gap: 10px;
+    align-items: center;
+    padding-right: 30px;
+    
+  }
+  .nav1{
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+    align-items: center;
+    text-decoration: none;
+    list-style-type:none;
+    height: 50px;
+    background-color:#307cf5;
+    box-shadow: 0 5px 5px -2px rgba(0,0,0,.2);
+    position: fixed;
+    width: 100%;
+  }
+  li{
+    text-decoration: none;
+    
+  }
+  a{
+    text-decoration: none;
+  
+  }
+  
+  .btn{
+    background-color: transparent;
+    border-width: 0;
+    cursor: pointer;
+    width: 120px;
+    height: 30px;
+    border-radius: 30px;
+    transition: background-color 0.3s ease;
+    font-family: ff;
+    font-size: 16px;
+    color: #fff;
+    font-weight: 500;
+    
+  }
+ .btn:hover{
+  background-color: lightgrey;
+  }
+  i{
+    color: white;
+    margin-right: 5px;
+  }
+  .notf,.logout{
+    width: 50px;
+  }
+  #srch-btn{
+    background-color: white;
+    border-width: 0;
+    cursor: pointer;
+    width: 40px;
+    height: 30px;
+    border-radius: 0px 30px 30px 0px;
+    transition: background-color 0.3s ease;
+    font-family: ff;
+    font-size: 16px;
+    color: #fff !important;
+    font-weight: 500;
+  }
+  #input-s{
+    border-radius: 15px;
+    margin-right: 5px;
+    background-color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 13px;
+    width: 100%;
+    height: 30px;
+    outline: none;
+  }
+  #search{
+    margin-right: 10px;
+    border-radius: 30px;
+    box-shadow: 0 5px 5px -2px rgba(0,0,0,.2);
+  }
+  .img-pro{
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+    margin-right: 50px;
+  }
+  .part-1{
+    padding: 20px 20px 0px 20px;
+    display: flex;
+    flex-direction: row;
+    color: gray;
+  }
+
+.nav2{
+  position: fixed;
+  left: 0%;
+background-color:  #ececec;
+width:20%;
+height: 500px;
+display: flex;
+flex-direction: column;
+border: none;
+margin:20px 0px 0px 0px;
+padding:11px 0px 0px 0px;
+font-size: 20px;
+list-style-type:none;
+width: 200px;
+}
+.li-list{
+
+    padding: 10px;
+    color: rgb(82, 81, 81);
+    font-family: ff;
+}
+.posts-contianer{
+    background-color: #ececec; 
+    display: flex;
+    width:  50%;
+    flex-direction: column;
+
+    margin-left: 250px;
+    padding-bottom: 20px;
+
+}
+.home-container{
+    display: flex;
+    flex-direction: row;
+    margin-top: 10px;
+
+}
+.add-post{
+    background-color: white;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    border-radius:10px;
+    margin-bottom: 20px;
+}
+.pfp-pho{ 
+    justify-content: center;
+}
+.part-2{
+    margin-left: 80px;
+    margin-right: 15px;
+    color: gray;
+    border-bottom: 2px solid gray;
+}
+.part-3{
+    display: flex;
+    flex-direction: row;
+    color: gray;
+    margin-left:80px ;
+    gap: 50px;
+}
+.the-post,.comment-container{
+    background-color: white;
+    height: 510px;
+    padding-bottom: 15px;
+}
+
+.details-post{
+  display: flex;
+  flex-direction: column;
+  
+}
+.main-post-1{
+  display: flex;
+  flex-direction: row;
+  padding: 10px 20px 0px 20px;
+  align-items: center;
+}
+.nameus{
+  margin-left: 20px;
+  font-family: gg;
+  color: gray;
+  border-bottom: 1px solid gainsboro;
+  
+}
+.date-post{
+  margin-left:25px ;
+  font-size: 12px;
+  color: lightgrey;
+}
+.img-pro2{
+  margin: 10px;
+  width: 50px;
+  height: 50px;
+}
+.main-post-2{
+  padding: 0px 20px 10px 20px;
+}
+.disc{
+  margin: 0px;
+}
+.main-post-3{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.post-photo{
+  max-width: 98%;
+  height: 300px;
+  padding: 20px;
+}
+.main-post-4{
+  display: flex;
+  flex-direction: row;
+  gap: 100px;
+  padding: 0px 30px 0px 60px;
+}
+.friends{
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  height : calc(100% - 250px );
+  border-radius: 10px;
+  align-items: center;
+  width: 250px;
+}
+.bbb{
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+  font-family: ff;
+  font-size: 20px;
+  color: rgb(82, 81, 81);
+  text-align: left;
+}
+.comnt-form{
+  display: flex;
+  gap: 20px;
+  padding: 10px;
+  align-items: center;
+  border-bottom: 1px solid gray;
+}
+.input{
+  background-color: #eee;
+  border: none;
+  margin: 8px 0;
+  padding: 10px 15px;
+  font-size: 13px;
+  border-radius: 8px;
+  width: 100%;
+  outline: none;
+}
+.comment-container{
+  padding: 20px;
+}
+.comnt{
+  padding: 10px;
+  border-bottom: 1px solid gray;
+}
+.admin{
+  margin-left: auto;
+}
+
+.delete,.edit{
+  background-color: #307cf5;
+  color: white;
+  border-width: 0px;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 8px;
+  width: 60px;
+  margin: 5px;
+}

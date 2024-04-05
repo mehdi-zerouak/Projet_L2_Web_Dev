@@ -1,129 +1,148 @@
 {% load static %}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fakebook</title>
-    <style>
-        /* basic css styling just for testing */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f0f2f5;
-        }
-        .post {
-            background-color: #fff;
-            margin: 20px auto;
-            padding: 20px;
-            width: 80%;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
-        .post-header {
-            margin-bottom: 10px;
-        }
-        .author-username {
-            color: #333;
-            margin-bottom: 5px;
-        }
-        .author-profile-picture {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-bottom: 10px;
-        }
-        .post-title h3 {
-            color: #007bff;
-        }
-        .post-content p {
-            color: #555;
-        }
-        .post-content img {
-            max-width: 100%;
-            height: auto;
-            margin-top: 10px;
-            border-radius: 5px;
-        }
-        .post-info {
-            color: #888;
-        }
-        .post-author-info:hover {
-            background-color: #f0f0f0;
-        }
-        .post-body:hover {
-            background-color: #f0f0f0;
-        }
-    </style>
+    <title>Fakebook | Blog</title>
+    <link rel="stylesheet" href="{% static 'styles/blog/index.css' %}">
+    <script src="https://kit.fontawesome.com/f8e3ad68c8.js" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/5665c51b75.js" crossorigin="anonymous"></script>
 </head>
 <body>
-    
-    <!-- navbar for testing only , with simple css -->
-    <div style="background-color: #007bff; padding: 10px;">
-        <span style="font-size: 24px; color: #fff; margin-right: 20px;">Fakebook</span>
-        <!-- for now this will work only in blog home page and results page -->
-        <form  action="{% url 'blog:b-search' %}" method="get">
-            <input type="search" name="query" placeholder="Search">
-            <button  type="submit" value="Search">Search</button>
-        </form>
-        <!-- --------------------------------------------- -->
-        <a href="{% url 'blog:b-home' %}" style="color: #fff; text-decoration: none; margin-right: 20px; transition: color 0.3s;">Blog</a>
-        <a href="{% url 'marketplace:mp-home' %}" style="color: #fff; text-decoration: none; margin-right: 20px; transition: color 0.3s;">Marketplace</a>
-        <a href="{% url 'user:u-profile' user.username %}" style="color: #fff; text-decoration: none; margin-right: 20px; transition: color 0.3s;">Profile</a>
-        <a href="{% url 'user:u-logout' %}" style="color: #fff; text-decoration: none; transition: color 0.3s;">Logout</a>
+    <div style="height: 50px;" class="navbar">
+        <ul class="nav1">
+            <li>
+                <div class="logo">
+                    <div class="f">f</div>
+                    <span style="margin-right: 10px;" class="book">ake book</span>
+                    <a href="{% url 'blog:b-home' %}"><button class="btn notf"><i class="fa-solid fa-house"></i> </button></a>
+                </div>
+            </li>
+            
+            
+            <div class="links">
+            
+            <li id="search">
+                
+                <form  action="{% url 'blog:b-search' %}" method="get" style="display: flex;">
+                    <div style="background-color: white;display: flex;border-radius: 30px;width: 300px;">
+                    <input id="input-s" type="search" name="query" placeholder="Search">
+                    <button id="srch-btn" type="submit" value="Search"><i style="color: gray;" class="fa-solid fa-magnifying-glass fa-lg"></i></button>
+                    </div>
+                </form>
+            </li>
+            <li>
+                <a href="{% url 'user:u-profile' user.username %}"><img class="img-pro" src="{{user.profile.picture.url}}"></button></a>
+            </li>
+            <li>
+                <a href="{% url 'user:u-logout' %}"><button class=" btn logout"><i class="fa-solid fa-door-open fa-lg"></i></button></a>
+            </li>
+            </div>
+        </ul>
     </div>
-    <!------------------------------------------------>
 
-    <h1>Blog</h1>
-    <a href="{% url 'blog:b-create-post' %}">Create post</a>
-    <hr>
-    {% for post in posts %}
-        <div class="post">
+<div class="home-container">
+        
+    <ul class="nav2">
+        <a href="{% url 'user:u-friends-list' user.username %}"> <li class="li-list"><button class="bbb"><i class="fa-solid fa-people-line" style="color: #74C0FC;"></i>Friends</button></li></a>
+        <a href="{% url 'user:u-profile' user.username %}"> <li class="li-list"><button class="bbb"><i class="fa-solid fa-user" style="color: #74C0FC;"></i>Profile</button></li></a>
+        <a href="{% url 'marketplace:mp-home' %}"> <li class="li-list"><button class="bbb"><i class="fa-solid fa-shop" style="color: #74C0FC;"></i>Marketplace</button></li></a>
+    </ul>
 
-            <div class="post-header">
-                <a href="{% url 'users:u-profile' post.author.username %}">
-                    <div class="post-author-info">
-                        <h5 class="author-username">{{ post.author.username }}</h5>
-                        <img src="{{ post.author.profile.picture.url }}" alt="pfp" class="author-profile-picture">
-                    </div>
-                </a>
-                <a href="{% url 'blog:b-post' post.id %}">
-                    <div class="post-title">
-                        <h3>{{post.title}}</h3>
-                    </div>
-                </a>
+    <div class="posts-contianer">
+
+        <a href="{% url 'blog:b-create-post' %}"> <div class="add-post">
+            <div class="part-1">
+                <img  class="img-pro2 img-pro" src="{{user.profile.picture.url}}">
+                <div style="margin-left: 20px;font-family: gg;"><p>{{user.username}}</p></div>
             </div>
-
-            <div class="post-body">
-                <a href="{% url 'blog:b-post' post.id %}">
-                    <div class="post-content">
-                        <p>{{post.content|linebreaksbr}}</p>
-                        {% if post.image %}
-                        <img src="{{post.image.url}}" alt="post image">
-                        {% endif %}
-                    </div>
-                </a>
+            <div class="part-2">
+                <p>what on your mind, {{user.username}} ?</p>
             </div>
-
-            <div class="post-info">
-                <p>Likes: {{post.likes.count}}</p>
-                <p>Comments: {{post.comments.count}}</p>
+            <div class="part-3">
+                <p>Photo</p>
+                <p>Feeling/Activity</p>
             </div>
-
         </div>
-    {% endfor %}
+        </a>
 
-        <h2> Your friends </h2>
+        <div style="display: flex;flex-direction: column;">
 
-    {% for friend in friends %}
+            {% if posts %}
+            {% for post in posts %}
+            <div class="the-post">
+
+            <a href="{% url 'user:u-profile' post.author.username %}">
+            <div class="main-post-1">
+                <img class="img-pro2 img-pro" src="{{post.author.profile.picture.url}}">
+                <div class="details-post">
+                    <div class="nameus"><p style="margin-bottom: 0px;">{{post.author.username}}</p></div>
+                    <div class="date-post">{{post.created_date}}</div> 
+                </div>
+            </div>
+            </a>
+
+            <a href="{% url 'blog:b-post' post.id %}" class="a-post">
+
+            <div class="main-post-2">
+                <h2 class="disc">{{post.title}}</h2>
+                {% if post.content %}
+                <p class="disc">{{post.content|linebreaksbr}}</p>
+                {% endif %}
+            </div>
+
+            <div  class="main-post-3">
+                {% if post.image %}
+                <img class="post-photo" src="{{post.image.url}}" >
+                {% endif %}
+            </div>
+            </a>
+            <div class="main-post-4">
+                <button class="bbb"> <p><i class="fa-regular fa-thumbs-up fa-lg" style="color: #74C0FC;"></i>Likes | {{post.likes.count}}</p></button>
+                <button class="bbb"> <p><i class="fa-regular fa-comment fa-lg" style="color: #74C0FC;"></i>Comments | {{post.comments.count}}</p></button>
+            </div>
+
+
+            </div>
+            {% endfor %}
+            {% else %} <!-- if no posts -->
+            <h3>no posts available</h3>
+            {% endif %}
+            
+        </div>
+        
+
+    </div>
+    <div class="hh" style="display: flex; flex-direction: column;width: 20%;margin-left:60px;">
+        <div style="padding-bottom: 10px;">
+            <img style="height: 190px;" src="https://cdn.discordapp.com/attachments/1096118526361739286/1224841412479160461/Fiverr-1.png?ex=661ef575&is=660c8075&hm=1c900e071b231249b68236d745aa8cd65b438ec65fa9436e22b05d2d84596854&" alt="">
+        </div>
+    <div class="friends">
+        <div>
+            <p>Your Friends :</p>
+        </div>
+
+        {% if friends %}
+        {% for friend in friends %}
+        <div style="display: flex; flex-direction: row; gap: 5px; margin-bottom: 20px;">
+            <div >
+                <img style="margin: 0px;" class="img-pro" src="{{friend.profile.picture.url}}" alt="">
+            </div>
+            <div >
+                <p style="margin: 0%; font-size: 20px;">{{friend.username}}</p>
+            </div>
+            <div >
+                <a href=""><i  class="msg fa-regular fa-message fa-sm"></i> </a>
+            </div>
+        </div>
+        {% endfor %}
+        {% endif %}
+
+    </div>
+    </div>
+
+</div>
     
-        <div class="friends">
-            <p> # {{friend.username}} </p>
-        </div>
-
-    {% endfor %}
-
 </body>
 </html>

@@ -1,24 +1,110 @@
+{% load static %}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Fakebook </title>
+    <link rel="stylesheet" href="{% static 'styles/marketplace/index.css' %}">
+    <script src="https://kit.fontawesome.com/f8e3ad68c8.js" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/5665c51b75.js" crossorigin="anonymous"></script>
+    <title> Fakebook | marketplace </title>
 </head>
 <body>
-    <!-- navbar for testing only , with simple css -->
-    <div style="background-color: #007bff; padding: 10px;">
-        <span style="font-size: 24px; color: #fff; margin-right: 20px;">Fakebook</span>
-        <input type="text" placeholder="Search" style="padding: 5px; border-radius: 5px; border: none; margin-right: 20px;">
-        <a href="{% url 'blog:b-home' %}" style="color: #fff; text-decoration: none; margin-right: 20px; transition: color 0.3s;">Blog</a>
-        <a href="{% url 'marketplace:mp-home' %}" style="color: #fff; text-decoration: none; margin-right: 20px; transition: color 0.3s;">Marketplace</a>
-        <a href="{% url 'user:u-profile' user.username %}" style="color: #fff; text-decoration: none; margin-right: 20px; transition: color 0.3s;">Profile</a>
-        <a href="{% url 'user:u-logout' %}" style="color: #fff; text-decoration: none; transition: color 0.3s;">Logout</a>
+    <!-- navbar -->
+    <div  class="navbar" style="height: 50px;">
+        <ul class="nav1">
+            <li>
+                <div class="logo">
+                    <div class="f">F</div>
+                    <span style="margin-right: 10px;" class="book">ake book</span>
+                    <a href="{% url 'blog:b-home' %}"><button class="btn notf"><i class="fa-solid fa-house"></i> </button></a>
+                </div>
+            </li>
+
+
+            <div class="links">
+
+            <li id="search" >
+                <form  action="{% url 'blog:b-search' %}" method="get" style="display: flex;">
+                    <div style="background-color: white;display: flex;border-radius: 30px;width: 300px;">
+                    <input id="input-s" type="search" name="query" placeholder="Search">
+                    <button id="srch-btn" type="submit" value="Search"><i style="color: gray;" class="fa-solid fa-magnifying-glass fa-lg"></i></button>
+                    </div>
+                </form>
+            </li>
+
+            <li>
+                <a href="{% url 'user:u-profile' user.username %}"><img class="img-pro" src="{{user.profile.picture.url}}"></a>
+            </li>
+
+            <li>
+                <a href="{% url 'user:u-logout' %}"><button class=" btn logout"><i class="fa-solid fa-door-open fa-lg"></i></button></a>
+            </li>
+
+            </div>
+        </ul>
     </div>
-    <!------------------------------------------------>
-    <h1> marketplace </h1>
-    <p><a href="{% url 'marketplace:mp-create' %}">Place an item for sale</a></p>
-    {%for product in products %}
-        <p>{{product.label}}</p>
-    {%endfor%}
+    <!-- end navbar -->
+
+    <div class="container">
+        <!-- side navbar -->
+        <ul class="nav2">
+            <a href="{% url 'user:u-friends-list' user.username %}"> <li class="li-list"><button class="bbb"><i class="fa-solid fa-people-line" style="color: #74C0FC;"></i>Friends</button></li></a>
+            <a href="{% url 'user:u-profile' user.username %}"> <li class="li-list"><button class="bbb"><i class="fa-solid fa-user" style="color: #74C0FC;"></i>Profile</button></li></a>
+            <a href="{% url 'marketplace:mp-home' %}"> <li class="li-list"><button class="bbb"><i class="fa-solid fa-shop" style="color: #74C0FC;"></i>Marketplace</button></li></a>
+        </ul>
+        <!-- end side navbar -->
+        <div class="filter-container">
+            <form method="get" action="{% url 'marketplace:mp-search' %}">
+                <input class="mp-input" type="text" placeholder="item name" name="name">
+                <input class="mp-input" type="number" min="0" placeholder="max price" name="max_price">
+                <select class="mp-input" id="cars" name="category">
+                    <option value="" selected disabled>Select category</option>
+                    {% for category in form.category.field.queryset %}
+                    <option value="{{ category.pk }}">{{ category }}</option>
+                    {% endfor %}
+                </select>
+                <input class="mp-submit" type="submit" value="Search">
+            </form>
+        </div>
+        <a href={% url 'marketplace:mp-create' %}><button class="mp-submit" style="margin-bottom:20px;"> Add Product </button></a>
+        <div class="products-container">
+        {% if products %}
+            {% for product in products %}
+            <div class="product">
+
+                <a href="{% url 'user:u-profile' product.user.username %}">
+                <div class="card-header">
+                    <div class="pfp-container">
+                        <img class="pfp" src="{{product.user.profile.picture.url}}" alt="user pfp">
+                    </div>
+                    <p class="username">{{product.user.username}}</p>
+                </div>
+                </a>
+
+                {% if product.image %}
+                <div class="card-content">
+                    <img src="{{product.image.url}}" alt="product image">
+                </div>
+                {% endif %}
+                <a href="{% url 'marketplace:mp-details' product.id %}" style="color:black;">
+                <div class="card-footer">
+                        <p class="product-name">{{product.label}}</p>
+                        <p class="description">{{product.description}}</p>
+                        <p class="price">{{product.price}} Da</p>
+                        <p>{{product.quantity}} piece </p>
+                        <p>Category : {{product.category.name}}</p>
+                       <div class="phone-container">
+                        <p class="phone">Phone:{{product.phone}}</p>    
+                       </div>            
+                </div>
+                </a>
+            </div>
+            {% endfor %} <!-- end product -->
+        {% else %}
+        <center> <h3> No products available 😦 </h3> </center>
+        {% endif %}
+        </div>
+    </div>
 </body>
 </html>

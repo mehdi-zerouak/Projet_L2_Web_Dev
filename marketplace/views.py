@@ -1,20 +1,25 @@
 # marketplace views
-from django.db.models.query import QuerySet
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from .models import Product,Category
-from users.models import Profile
+from .models import Product
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import CreateView,DetailView,DeleteView,UpdateView,ListView,View
+from django.views.generic import CreateView,DeleteView,UpdateView,ListView,View
 from .forms import CreateProductForm,SearchProductsForm
 from django.db.models import Q
+
 # Create your views here.
 class Products(LoginRequiredMixin,ListView):
     model = Product
     template_name = 'marketplace/index.html' 
     context_object_name = 'products' 
+    ordering = ['-created_date']
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["form"] = SearchProductsForm()
+        return context
+    
 
 class ProductDetails(LoginRequiredMixin,DeleteView):
     model = Product
@@ -45,6 +50,11 @@ class EditProduct(LoginRequiredMixin,UpdateView):
     def get_success_url(self):
         return reverse_lazy("marketplace:mp-details",kwargs={"pk":self.object.pk})
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['product'] = self.get_object() 
+        return context
+    
 class DeleteProduct(LoginRequiredMixin,DeleteView):
     model = Product
     template_name = "marketplace/delete_product.html"
@@ -57,30 +67,25 @@ class DeleteProduct(LoginRequiredMixin,DeleteView):
     def get_success_url(self):
         return reverse_lazy("marketplace:mp-home")
     
+  
 
+class AnotherFilterView(LoginRequiredMixin , View):
+    def get(self , request):
+        category = request.GET['category']
+        max_price = request.GET['max_price']
+        name = request.GET['name']
+        filter_criteria = Q() 
 
-class FilterProducts(LoginRequiredMixin, View):
-    def get(self, request):
-        form = SearchProductsForm(request.GET)  # Create an instance of the form with GET data
+        if category:
+            filter_criteria &= Q(category=category)
 
-        if form.is_valid():
-            category = form.cleaned_data.get('category', '')  # Get the category from the form
-            max_price = form.cleaned_data.get('max_price', 0)  # Get the max_price from the form
-            name = form.cleaned_data.get('name', '')  # Get the name from the form
-            filter_criteria = Q()  # Initialize an empty Q object for filtering
-
-            if category:
-                filter_criteria &= Q(category=category)
-
-            if max_price:
+        if max_price:
                 filter_criteria &= Q(price__lte=max_price)
 
-            if name:
+        if name:
                 filter_criteria &= (Q(label__icontains=name) | Q(description__icontains=name))
 
-            filtered_products = Product.objects.filter(filter_criteria)  # Apply filters to the Product queryset
-        else:
-            # If form is not valid, handle accordingly
-            filtered_products = Product.objects.none()
+        filtered_products = Product.objects.filter(filter_criteria)  # Apply filters to the Product queryset
 
-        return render(request, 'marketplace/search.html', {'filtered_products': filtered_products, 'form': form})
+        form = SearchProductsForm()
+        return render(request, 'marketplace/index.html', {'products': filtered_products, 'form': form})

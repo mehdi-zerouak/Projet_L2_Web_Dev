@@ -1,38 +1,69 @@
 {% load static %}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FakeBook</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f0f2f5;
-        }
-    </style>
+    <link rel="stylesheet" href="{% static 'styles/blog/post-form.css' %}">
+    <script src="https://kit.fontawesome.com/f8e3ad68c8.js" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/5665c51b75.js" crossorigin="anonymous"></script>
+    <title>Fakebook | Update post</title>
 </head>
 <body>
+    <div style="height: 50px;" class="navbar">
+        <ul class="nav1">
+            <li>
+                <div class="logo">
+                    <div class="f">F</div>
+                    <span style="margin-right: 10px;" class="book">ake book</span>
+                    <a href="{% url 'blog:b-home' %}"><button class="btn notf"><i class="fa-solid fa-house"></i> </button></a>
+                </div>
+            </li>
+            
+            
+            <div class="links">
+            
+            <li id="search">
+                
+                <form  action="{% url 'blog:b-search' %}" method="get" style="display: flex;">
+                    <div style="background-color: white;display: flex;border-radius: 30px;width: 300px;">
+                    <input id="input-s" type="search" name="query" placeholder="Search">
+                    <button id="srch-btn" type="submit" value="Search"><i style="color: gray;" class="fa-solid fa-magnifying-glass fa-lg"></i></button>
+                    </div>
+                </form>
+            </li>
 
-    <!-- navbar for testing only , with simple css -->
-    <div style="background-color: #007bff; padding: 10px;">
-        <span style="font-size: 24px; color: #fff; margin-right: 20px;">Fakebook</span>
-        <input type="text" placeholder="Search" style="padding: 5px; border-radius: 5px; border: none; margin-right: 20px;">
-        <a href="{% url 'blog:b-home' %}" style="color: #fff; text-decoration: none; margin-right: 20px; transition: color 0.3s;">Blog</a>
-        <a href="{% url 'marketplace:mp-home' %}" style="color: #fff; text-decoration: none; margin-right: 20px; transition: color 0.3s;">Marketplace</a>
-        <a href="{% url 'user:u-profile' user.username %}" style="color: #fff; text-decoration: none; margin-right: 20px; transition: color 0.3s;">Profile</a>
-        <a href="{% url 'user:u-logout' %}" style="color: #fff; text-decoration: none; transition: color 0.3s;">Logout</a>
-    </div>
-    <!------------------------------------------------>
+            <li>
+                <a href="{% url 'user:u-profile' user.username %}"><img class="img-pro" src="{{user.profile.picture.url}}"></a>
+            </li>
 
-    <div class="update-post-container">
-        <h2> Update post </h2>
-        <form method="POST" enctype="multipart/form-data" >
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="update-post-button"> Update </button>
-        </form>
+            <li>
+                <a href="{% url 'user:u-logout' %}"><button class=" btn logout"><i class="fa-solid fa-door-open fa-lg"></i></button></a>
+            </li>
+
+            </div>
+        </ul>
     </div>
-</body>
-</html>
+    <h1>Update Post</h1>  
+    
+    <form method="post" enctype="multipart/form-data" class="formm">
+        {% csrf_token %}
+        <label for="text">Title:</label>
+        <textarea type="text" id="title" name="title" placeholder="Title" >{{ post.title }}</textarea>
+    
+        <label for="content">Content:</label>
+        <textarea id="content" name="content" placeholder="Enter the content of your post" >{{ post.content }}</textarea>
+    
+        <label for="image">Change Image:</label>
+        <input type="file" id="image" name="image" accept="image/*" >
+        <!-- If you want to show the current image -->
+        <label for="image">Current image</label>
+        <div class="image-preview">
+            <img src="{{ post.image.url }}" alt="Current Image">
+        </div>
+    
+        <input type="submit" value="Update Post">
+    </form>
+    
+    </body>
+    </html>

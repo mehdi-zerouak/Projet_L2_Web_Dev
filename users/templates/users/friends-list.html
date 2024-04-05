@@ -1,61 +1,48 @@
+{% load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fakebook</title>
-    <style>
-        /* simple css for testing */
-        body {
-                font-family: Arial, sans-serif;
-                margin: 0;
-                padding: 0;
-                background-color: #f0f2f5;
-            }
-        .friends-container {
-            display: flex;
-            flex-wrap: wrap;
-        }
-        .friend {
-            background-color: #fff;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            margin-bottom: 10px;
-            padding: 10px;
-        }
-        .friend-user-info {
-            display: flex;
-            align-items: center;
-        }
-        .friend-user-info img {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            margin-right: 10px;
-        }
-        .friend-buttons {
-            margin-top: 10px;
-        }
-        .friend-buttons button {
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-    </style>
+    <title>Fakebook | Friends</title>
+    <script src="https://kit.fontawesome.com/f8e3ad68c8.js" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/5665c51b75.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{% static 'styles/users/friends-list.css' %}">
 </head>
 <body>
-    <!-- navbar for testing only , with simple css -->
-    <div style="background-color: #007bff; padding: 10px;">
-        <span style="font-size: 24px; color: #fff; margin-right: 20px;">Fakebook</span>
-        <input type="text" placeholder="Search" style="padding: 5px; border-radius: 5px; border: none; margin-right: 20px;">
-        <a href="{% url 'blog:b-home' %}" style="color: #fff; text-decoration: none; margin-right: 20px; transition: color 0.3s;">Blog</a>
-        <a href="{% url 'marketplace:mp-home' %}" style="color: #fff; text-decoration: none; margin-right: 20px; transition: color 0.3s;">Marketplace</a>
-        <a href="{% url 'user:u-profile' user.username %}" style="color: #fff; text-decoration: none; margin-right: 20px; transition: color 0.3s;">Profile</a>
-        <a href="{% url 'user:u-logout' %}" style="color: #fff; text-decoration: none; transition: color 0.3s;">Logout</a>
+    <div style="height: 50px;" class="navbar">
+        <ul class="nav1">
+            <li>
+                <div class="logo">
+                    <div class="f"><i>f</i></div>
+                    <span style="margin-right: 10px;" class="book">ake book</span>
+                    <a href="{% url 'blog:b-home' %}"><button class="btn notf"><i class="fa-solid fa-house"></i> </button></a>
+                </div>
+            </li>
+            
+            
+            <div class="links">
+            
+            <li id="search">
+                
+                <form  action="{% url 'blog:b-search' %}" method="get" style="display: flex;">
+                    <div style="background-color: white;display: flex;border-radius: 30px;width: 300px;">
+                    <input id="input-s" type="search" name="query" placeholder="Search">
+                    <button id="srch-btn" type="submit" value="Search"><i style="color: gray;" class="fa-solid fa-magnifying-glass fa-lg"></i></button>
+                    </div>
+                </form>
+            </li>
+  
+            <li>
+              <a href="{% url 'user:u-profile' user.username %}"><img class="img-pro" src="{{user.profile.picture.url}}"></button></a>
+            </li>
+  
+             <li>
+              <a href="{% url 'user:u-logout' %}"><button class=" btn logout"><i class="fa-solid fa-door-open fa-lg"></i></button></a>
+            </li>
+  
+            </div>
+        </ul>
     </div>
-    <!------------------------------------------------>
 
     {% if user == this_user %} <!---------------------------------------->
 

@@ -1,15 +1,87 @@
+{% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en">  
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'styles/marketplace/product-form.css' %}">
+    <script src="https://kit.fontawesome.com/f8e3ad68c8.js" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/5665c51b75.js" crossorigin="anonymous"></script>
+    <title>Fakebook | Edit Product</title>
 </head>
 <body>
-    <form method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{form.as_p}}
-        <input type="submit" value="Edit">
+    <div style="height: 50px;" class="navbar">
+        <ul class="nav1">
+            <li>
+                <div class="logo">
+                    <div class="f">F</div>
+                    <span style="margin-right: 10px;" class="book">ake book</span>
+                    <a href="{% url 'blog:b-home' %}"><button class="btn notf"><i class="fa-solid fa-house"></i> </button></a>
+                </div>
+            </li>
+            
+            
+            <div class="links">
+            
+            <li id="search">
+                
+                <form  action="{% url 'blog:b-search' %}" method="get" style="display: flex;">
+                    <div style="background-color: white;display: flex;border-radius: 30px;width: 300px;">
+                    <input id="input-s" type="search" name="query" placeholder="Search">
+                    <button id="srch-btn" type="submit" value="Search"><i style="color: gray;" class="fa-solid fa-magnifying-glass fa-lg"></i></button>
+                    </div>
+                </form>
+            </li>
+
+            <li>
+                <a href="{% url 'user:u-profile' user.username %}"><img class="img-pro" src="{{user.profile.picture.url}}"></a>
+            </li>
+
+            <li>
+                <a href="{% url 'user:u-logout' %}"><button class=" btn logout"><i class="fa-solid fa-door-open fa-lg"></i></button></a>
+            </li>
+
+            </div>
+        </ul>
+    </div>
+    <h1>Edit Product</h1>
+    
+    <form method="post" enctype="multipart/form-data" class="formm">
+       {% csrf_token %}
+        <label for="text">Label:</label>
+        <textarea type="text" id="title" name="label" placeholder="Label" required> {{product.label}} </textarea>
+
+        <label for="content">Description:</label>
+        <textarea id="content" name="description" placeholder="Description ....." > {{product.description}}  </textarea>
+
+        <label for="text">Phone:</label>
+        <textarea type="text" id="title" name="phone" placeholder="+213" required> {{product.phone}}  </textarea>
+
+        <label for="text">Price:</label>
+        <textarea type="text" id="title" name="price" placeholder="Price" required> {{product.price}}  </textarea>
+
+        <label for="text">Quantity:</label>
+        <textarea type="text" id="title" name="quantity" placeholder="Quantity" required> {{product.quantity}}  </textarea>
+
+        <label for="text">Category:</label>
+        <select class="mp-input" id="cars" name="category">
+            <option value="{{product.category.id}}" selected disabled>{{product.category.name}} </option>
+            {% for category in form.category.field.queryset %}
+            <option value="{{ category.pk }}">{{ category }}</option>
+            {% endfor %}
+        </select>
+    
+        <label for="image">update current image:</label>
+        <input type="file" id="image" name="image" accept="image/*" >
+    
+        <input type="submit" value="Edit Product">
     </form>
-</body>
-</html>
+    {% if form.errors %}
+        {% for field, errors in form.errors.items %}
+            {% for error in errors %}
+            <h3> - {{error}}</h3>
+            {% endfor %}
+        {% endfor %}
+    {% endif %}
+    </body>
+    </html>

@@ -15,12 +15,13 @@ class Category(models.Model):
 
 class Product(models.Model):
     user = models.ForeignKey(User,  on_delete=models.CASCADE)
-    label = models.CharField(max_length=20)
+    label = models.CharField(max_length=50)
     price = models.DecimalField(max_digits=10,decimal_places=2)
     phone = PhoneNumberField()
     image = models.ImageField(upload_to=product_directory_path , blank=True)
     description = models.TextField(max_length=200)
     quantity = models.PositiveBigIntegerField(default=0)
+    created_date = models.DateTimeField(auto_now_add=True)
     category = models.ForeignKey(Category, blank=True,null=True, on_delete=models.CASCADE)
     def __str__(self):
         return self.label
